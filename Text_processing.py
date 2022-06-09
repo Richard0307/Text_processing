@@ -1,9 +1,13 @@
 from array import array
+from posixpath import split
 import numpy as np
 import pandas as pd
 import jieba 
 import jieba.analyse
-import encodings 
+import encodings
+import nltk 
+import binascii
+from file_read_backwards import FileReadBackwards
 
 a = "哎，鹅，听说你超级喜欢小游戏的！你是吗？"
 b = jieba.lcut(a)
@@ -50,4 +54,30 @@ y = np.array(x)
 z = np.array(stopword)
 m = y[~np.in1d(y,z)]
 k = [i for i in m if len(i)>1]
-print(k)
+# print(k)
+filepath = ("C:\\Users\\Richard\\Desktop\\COM3110 代码\\test\\work.txt")
+
+with open (filepath,'r',encoding='utf-8') as f:
+    lines_in_file = f.read()
+
+    nltk_tokens = nltk.word_tokenize(lines_in_file)
+
+# print(nltk_tokens)
+# print("Numbers of words:",len(nltk_tokens))
+
+text = b"Simply Easy Learning"
+
+# Coverting binary to ascii
+data_b2a = binascii.b2a_uu(text)
+# print("**Binary to Ascii ** \n")
+# print(data_b2a)
+# with open (filepath,'r',encoding='utf-8') as BigFile:
+#     data = BigFile.readlines()
+    
+#     for i in range (len(data)):
+        # print("Line NO.",i)
+        # print(data[i])
+
+with FileReadBackwards (filepath,encoding='utf-8') as BigFile:
+    for line in BigFile:
+        print(line)
